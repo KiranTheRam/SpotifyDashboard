@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Light mode styles (default) */
+        body.light-mode {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .navbar-light {
+            background-color: #f8f9fa;
+            color: #000;
+        }
+
+        .light-mode .list-group-item {
+            background-color: #f8f9fa; /* Light background for light mode */
+            color: #000; /* Dark text for light mode */
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .navbar-dark {
+            background-color: #212529;
+            color: #fff;
+        }
+
+        .dark-mode .list-group-item {
+            background-color: #495057; /* Darker background for dark mode */
+            color: #fff; /* Light text for dark mode */
+        }
+
+        /* Card specific styles for better visibility in both modes */
+        .card {
+            transition: background-color 0.3s ease;
+        }
+
+        .light-mode .card {
+            background-color: #fff;
+        }
+
+        .dark-mode .card {
+            background-color: #424242;
+        }
+
+        /* Button styling for toggling modes */
+        /*.mode-toggle {*/
+        /*    cursor: pointer;*/
+        /*    padding: 0.5rem 1rem;*/
+        /*    border: none;*/
+        /*    border-radius: 5px;*/
+        /*    background-color: #007bff;*/
+        /*    color: white;*/
+        /*    font-size: 1rem;*/
+        /*}*/
+        .mode-toggle {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            position: fixed; /* Example to make it easily accessible */
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="mb-4">Spotify Dashboard</h1>
+    <button id="toggleMode" class="mode-toggle">Toggle Dark Mode</button>
+
+    <!--    New Releases-->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>New Releases</h2>
+            <div class="card-deck">
+                {% for release in new_releases %}
+                <div class="card" style="min-width: 18rem;">
+                    <img src="{{ release['image_url'] }}" class="card-img-top" alt="Album Art">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ release['name'] }}</h5>
+                        <p class="card-text">by {{ release['artist'] }}</p>
+                        <a href="{{ release['url'] }}" class="btn btn-primary">Listen on Spotify</a>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+            </div>
+            <div class="card-deck mt-4">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!--    Release Radar-->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Release Radar</h2>
+            <div class="card-deck">
+                {% for track in release_radar_tracks %}
+                <div class="card" style="min-width: 18rem;">
+                    <img src="{{ track['image_url'] }}" class="card-img-top" alt="Track Art">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ track['name'] }}</h5>
+                        <p class="card-text">by {{ track['artist'] }}</p>
+                        <a href="{{ track['url'] }}" class="btn btn-primary">Listen on Spotify</a>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+            </div>
+            <div class="card-deck mt-4">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!--    Top Tracks-->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Top Tracks of the Week</h2>
+            <div class="card-deck">
+                {% for track in top_tracks %}
+                <div class="card" style="min-width: 18rem;">
+                    <img src="{{ track['image_url'] }}" class="card-img-top" alt="Track Art">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ track['name'] }}</h5>
+                        <p class="card-text">by {{ track['artist'] }} - {{ track['album'] }}</p>
+                        <a href="{{ track['url'] }}" class="btn btn-primary">Listen on Spotify</a>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+            </div>
+            <div class="card-deck mt-4">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!--    Top Artists-->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Top Artists of the Week</h2>
+            <div class="d-flex flex-wrap">
+                {% for artist in top_artists %}
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="{{ artist['image_url'] }}" class="card-img-top" alt="Artist Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ artist['name'] }}</h5>
+                        <a href="{{ artist['url'] }}" class="btn btn-primary">View on Spotify</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!--    Top Genres-->
+    <div class="row">
+        <div class="col-12">
+            <h2>Top Genres of the Week</h2>
+            <div class="list-group">
+                {% for genre in top_genres %}
+                <a href="#" class="list-group-item list-group-item-action">{{ genre }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- Include Bootstrap JS and its dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const toggleModeButton = document.getElementById('toggleMode');
+        const body = document.body;
+
+        // Initialize default mode
+        body.classList.add('light-mode');
+
+        toggleModeButton.addEventListener('click', function () {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.replace('dark-mode', 'light-mode');
+                toggleModeButton.textContent = 'Toggle Dark Mode';
+            } else {
+                body.classList.replace('light-mode', 'dark-mode');
+                toggleModeButton.textContent = 'Toggle Light Mode';
+            }
+        });
+    });
+</script>
+</body>
+</html>

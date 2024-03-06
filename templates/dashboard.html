@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Dashboard</title>
+</head>
+<body>
+<h1>Spotify Dashboard</h1>
+
+<section>
+    <h2>New Releases</h2>
+    {% for release in new_releases %}
+    <div>
+        {% if release.image_url %}
+        <img src="{{ release['image_url'] }}" alt="Album Art" style="width:100px;height:100px;">
+        {% endif %}
+        <p>{{ release['name'] }} by {{ release['artist'] }} - {{ release['release_date'] }}</p>
+        <a href="{{ release['url'] }}">Listen on Spotify</a>
+    </div>
+    {% endfor %}
+</section>
+
+
+<section>
+    <h2>Release Radar</h2>
+    {% for track in release_radar_tracks %}
+    <div>
+        <img src="{{ track['image_url'] }}" alt="Album Art" style="width:100px;height:100px;">
+        <p>{{ track['name'] }} by {{ track['artist'] }} - {{ track['release_date'] }}</p>
+        <a href="{{ track['url'] }}">Listen on Spotify</a>
+    </div>
+    {% endfor %}
+</section>
+
+<section>
+    <h2>Top Tracks of the Week</h2>
+    {% for track in top_tracks %}
+    <div>
+        <img src="{{ track['image_url'] }}" alt="Track Art" style="width:100px;height:100px;">
+        <p>{{ track['name'] }} by {{ track['artist'] }} - {{ track['album'] }}</p>
+        <a href="{{ track['url'] }}">Listen on Spotify</a>
+    </div>
+    {% endfor %}
+</section>
+
+<section>
+    <h2>Top Artists of the Week</h2>
+    {% for artist in top_artists %}
+    <div>
+        <img src="{{ artist['image_url'] }}" alt="Artist Image" style="width:100px;height:100px;">
+        <p>{{ artist['name'] }}</p>
+        <a href="{{ artist['url'] }}">View on Spotify</a>
+    </div>
+    {% endfor %}
+</section>
+
+<section>
+    <h2>Top Genres of the Week</h2>
+    <ul>
+        {% for genre in top_genres %}
+        <li>{{ genre }}</li>
+        {% endfor %}
+    </ul>
+</section>
+</body>
+</html>
