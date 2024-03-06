@@ -2,7 +2,7 @@
 ### A Python Flask application that gives information about the signed in user.
 
 ## Run
-1. Create an .env file and fill te following variables:
+1. Create an .env file and fill in the following variables:
 ```
 SPOTIFY_CLIENT_ID=
 SPOTIFY_CLIENT_SECRET=
